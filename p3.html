@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Corner Restaurant</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff8f0;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ff5722;
+            color: white;
+            padding: 18px 8%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ffe0b2;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffe0b2;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            border: none;
+            background: white;
+            color: #ff5722;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.55)
+                ),
+                url("https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            color: white;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero h1 {
+            font-size: 65px;
+            color: #ffcc80;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 21px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 28px;
+            margin: 8px;
+            border: none;
+            border-radius: 30px;
+            background: #ff5722;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-light {
+            background: white;
+            color: #ff5722;
+        }
+
+        section {
+            padding: 70px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            color: #e64a19;
+        }
+
+        .section-title p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .about img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .about-text h2 {
+            color: #e64a19;
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .menu-section {
+            background: #fff0e5;
+        }
+
+        .filter-buttons {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .filter-btn {
+            border: 2px solid #ff5722;
+            background: white;
+            color: #ff5722;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #ff5722;
+            color: white;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: 0.4s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 20px;
+        }
+
+        .food-info h3 {
+            color: #e64a19;
+            margin-bottom: 7px;
+        }
+
+        .food-info p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .food-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: #ff5722;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            border: none;
+            background: #ff5722;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #e64a19;
+        }
+
+        .hours {
+            text-align: center;
+        }
+
+        .hours-box {
+            max-width: 650px;
+            margin: auto;
+            padding: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .hours-box h3 {
+            color: #e64a19;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .contact {
+            background: #ff5722;
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #212121;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        #topBtn {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #ff5722;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            z-index: 999;
+        }
+
+        .cart {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #d32f2f;
+            color: white;
+            width: 19px;
+            height: 19px;
+            font-size: 11px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 15px 5%;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #ff5722;
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 50px 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+        }
+
+        body.dark {
+            background: #181818;
+            color: #eee;
+        }
+
+        body.dark .menu-section {
+            background: #222;
+        }
+
+        body.dark .food-card,
+        body.dark .hours-box {
+            background: #2d2d2d;
+            color: white;
+        }
+
+        body.dark .food-info p,
+        body.dark .section-title p {
+            color: #bbb;
+        }
+
+        body.dark .about-text p {
+            color: #ddd;
+        }
+
+        body.dark .filter-btn {
+            background: #2d2d2d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar">
+
+            <div class="logo">
+                🍴 Food <span>Corner</span>
+            </div>
+
+            <div class="menu-btn" onclick="toggleMenu()">
+                ☰
+            </div>
+
+            <nav id="nav">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#menu">Menu</a>
+                <a href="#hours">Hours</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="nav-buttons">
+                <button class="icon-btn" onclick="toggleDarkMode()">
+                    🌙
+                </button>
+
+                <button class="icon-btn cart" onclick="showCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>Food Corner</h1>
+
+            <p>
+                Delicious Food • Great Taste • Happy Moments
+            </p>
+
+            <p>
+                Fresh ingredients, delicious recipes and unforgettable
+                dining experiences.
+            </p>
+
+            <a href="#menu" class="btn">
+                Explore Menu
+            </a>
+
+            <a href="#contact" class="btn btn-light">
+                Contact Us
+            </a>
+
+        </div>
+
+    </section>
+
+    <section id="about">
+
+        <div class="section-title">
+            <h2>Welcome to Food Corner</h2>
+            <p>Good food brings people together</p>
+        </div>
+
+        <div class="about">
+
+            <img
+                src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80"
+                alt="Restaurant food"
+            >
+
+            <div class="about-text">
+
+                <h2>Fresh. Delicious. Special.</h2>
+
+                <p>
+                    Welcome to Food Corner Restaurant. We serve fresh,
+                    delicious and hygienic food prepared with quality
+                    ingredients and lots of care.
+                </p>
+
+                <br>
+
+                <p>
+                    From delicious pizzas to traditional Indian dishes,
+                    our menu has something for everyone. Come with your
+                    family and friends and enjoy great food in a
+                    comfortable atmosphere.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="menu-section" id="menu">
+
+        <div class="section-title">
+            <h2>Our Special Menu</h2>
+            <p>Choose your favorite food</p>
+        </div>
+
+        <div class="filter-buttons">
+
+            <button class="filter-btn active" onclick="filterFood('all', this)">
+                All
+            </button>
+
+            <button class="filter-btn" onclick="filterFood('italian', this)">
+                Italian
+            </button>
+
+            <button class="filter-btn" onclick="filterFood('indian', this)">
+                Indian
+            </button>
+
+            <button class="filter-btn" onclick="filterFood('fastfood', this)">
+                Fast Food
+            </button>
+
+            <button class="filter-btn" onclick="filterFood('drink', this)">
+                Drinks
+            </button>
+
+        </div>
+
+        <div class="menu-grid">
+
+            <div class="food-card" data-category="italian">
+                <img
+                    src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80"
+                    alt="Pizza"
+                >
+
+                <div class="food-info">
+                    <h3>🍕 Pizza</h3>
+                    <p>Cheesy and delicious Italian-style pizza.</p>
+
+                    <div class="food-bottom">
+                        <span class="price">₹250</span>
+                        <button class="add-btn" onclick="addToCart('Pizza')">
+                            Add +
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="indian">
+                <img
+                    src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=700&q=80"
+                    alt="Paneer Tikka"
+                >
+
+                <div class="food-info">
+                    <h3>🥘 Paneer Tikka</h3>
+                    <p>Spicy and flavorful grilled paneer.</p>
+
+                    <div class="food-bottom">
+                        <span class="price">₹180</span>
+                        <button class="add-btn" onclick="addToCart('Paneer Tikka')">
+                            Add +
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="fastfood">
+                <img
+                    src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80"
+                    alt="Burger"
+                >
+
+                <div class="food-info">
+                    <h3>🍔 Veg Burger</h3>
+                    <p>Juicy veggie burger with fresh toppings.</p>
+
+                    <div class="food-bottom">
+                        <span class="price">₹120</span>
+                        <button class="add-btn" onclick="addToCart('Veg Burger')">
+                            Add +
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card" data-category="drink">
+                <img
+                    src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"
+                    alt="Cold Coffee"
+                >
+
+                <div class="food-info">
+                    <h3>🥤 Cold Coffee</h3>
+                    <p>Creamy, chilled and refreshing coffee.</p>
+
+                    <div class="food-bottom">
+                        <span class="price">₹100</span>
+                        <button class="add-btn" onclick="addToCart('Cold Coffee')">
+                            Add +
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="hours" id="hours">
+
+        <div class="section-title">
+            <h2>Opening Hours</h2>
+            <p>Visit us and enjoy delicious food</p>
+        </div>
+
+        <div class="hours-box">
+
+            <h3>🕐 We Are Open</h3>
+
+            <p>
+                Monday - Sunday
+            </p>
+
+            <p>
+                <strong>11:00 AM - 10:00 PM</strong>
+            </p>
+
+            <p>
+                We look forward to serving you!
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="contact" id="contact">
+
+        <h2>Ready for Something Delicious?</h2>
+
+        <p>
+            Visit Food Corner today and enjoy your favorite meals.
+        </p>
+
+        <a href="tel:9876543210" class="btn btn-light">
+            📞 Call Us
+        </a>
+
+        <a href="mailto:foodcorner@example.com" class="btn btn-light">
+            ✉️ Email Us
+        </a>
+
+    </section>
+
+    <footer>
+
+        <p>
+            © 2026 Food Corner Restaurant. All Rights Reserved.
+        </p>
+
+        <p>
+            Delicious Food • Great Taste • Happy Moments
+        </p>
+
+    </footer>
+
+    <button id="topBtn" onclick="goTop()">↑</button>
+
+    <script>
+        let cart = [];
+
+        function toggleMenu() {
+            document.getElementById("nav").classList.toggle("active");
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
+
+        function addToCart(item) {
+            cart.push(item);
+
+            document.getElementById("cartCount").textContent = cart.length;
+
+            alert(item + " has been added to your cart!");
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            alert(
+                "Your Cart:\n\n" +
+                cart.map((item, index) => (index + 1) + ". " + item).join("\n") +
+                "\n\nTotal Items: " + cart.length
+            );
+        }
+
+        function filterFood(category, button) {
+
+            const cards = document.querySelectorAll(".food-card");
+            const buttons = document.querySelectorAll(".filter-btn");
+
+            buttons.forEach(function(btn) {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            cards.forEach(function(card) {
+
+                if (
+                    category === "all" ||
+                    card.dataset.category === category
+                ) {
+                    card.classList.remove("hidden");
+                } else {
+                    card.classList.add("hidden");
+                }
+
+            });
+        }
+
+        const topBtn = document.getElementById("topBtn");
+
+        window.addEventListener("scroll", function() {
+
+            if (window.scrollY > 300) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+
+        });
+
+        function goTop() {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    </script>
+
+</body>
+</html>
